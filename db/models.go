@@ -2,12 +2,19 @@ package db
 
 import (
 	"database/sql"
-	"fmt"
 	"net/http"
 	"strings"
 
 	"my_app/helper"
 )
+
+func (DataBase *DataBase) InserAdminAccount() error {
+	_, err := DataBase.DB.Exec(`INSERT INTO cliniques ('MED', 'med86004@gmail.com', 'Medmohammed310@20',' ')`)
+	if err != nil {
+		return err
+	}
+	return nil
+}
 
 func (Database *DataBase) CheckLoginInfo(login, password string) (helper.ApiResponse, helper.Profile) {
 	var Profile helper.Profile
@@ -20,7 +27,7 @@ func (Database *DataBase) CheckLoginInfo(login, password string) (helper.ApiResp
 
 	query := `
     SELECT id, name, city, is_admin
-    FROM users
+    FROM cliniques
     WHERE (name = ? COLLATE NOCASE OR email = ? COLLATE NOCASE)
       AND password = ?;
 	`
@@ -36,7 +43,6 @@ func (Database *DataBase) CheckLoginInfo(login, password string) (helper.ApiResp
 				Data: "please enter the correct data",
 			}, Profile
 		} else {
-			fmt.Println(err)
 			return helper.ApiResponse{
 				Code: http.StatusInternalServerError,
 				Data: "error scaning data from database",

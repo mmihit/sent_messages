@@ -1,15 +1,15 @@
 package main
 
 import (
+	"fmt"
 	"log"
+	"net/http"
 
 	"my_app/db"
 	"my_app/handlers"
 
 	"github.com/gorilla/mux"
 )
-
-// import "fmt"
 
 func main() {
 	Database, err := db.InitDb()
@@ -22,4 +22,13 @@ func main() {
 	r := mux.NewRouter()
 
 	r.HandleFunc("/login", h.LoginHandler).Methods("POST")
+
+	serveur := &http.Server{
+		Addr:    ":8080",
+		Handler: r,
+	}
+
+	fmt.Println("server is running in http://localhost" + serveur.Addr)
+
+	log.Fatal(serveur.ListenAndServe())
 }

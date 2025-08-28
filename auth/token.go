@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"fmt"
 	"time"
 
 	"my_app/helper"
@@ -21,6 +22,7 @@ func CreateToken(profile helper.Profile) (string, error) {
 
 	tokenString, err := token.SignedString(secretKey)
 	if err != nil {
+		fmt.Println(err)
 		return "", err
 	}
 

@@ -20,24 +20,26 @@ func (h *Handlers) LoginHandler(w http.ResponseWriter, r *http.Request) {
 
 	err := json.NewDecoder(r.Body).Decode(&bodyRequest)
 	if err != nil {
-		http.Error(w, "expected body infos", http.StatusBadRequest)
+		http.Error(w, "invalid body data", http.StatusBadRequest)
 		return
 	}
 
 	apiResponse, Profile := h.DB.CheckLoginInfo(bodyRequest.Login, bodyRequest.Password)
-	token, err := auth.CreateToken(Profile)
-	if err != nil {
-		apiResponse = helper.ApiResponse{
-			Code: http.StatusInternalServerError,
-			Data: "error generating token, please try again",
+	if apiResponse.Code == http.StatusOK {
+		token, err := auth.CreateToken(Profile)
+		if err != nil {
+			apiResponse = helper.ApiResponse{
+				Code: http.StatusInternalServerError,
+				Data: "error generating token, please try again",
+			}
+		} else {
+			loginData = helper.LoginResponseData{
+				Message: "connecting succeffully",
+				Token:   token,
+			}
+			apiResponse.Data = loginData
 		}
-	} else {
-		loginData = helper.LoginResponseData{
-			Message: "connecting succeffully",
-			Token:   token,
-		}
-		apiResponse.Data = loginData
 	}
-	
+
 	apiResponse.Sent(w)
 }
