@@ -1,0 +1,36 @@
+---------- NOTES -----------
+
+* user_name column in DB is the clinique name if ther ole is clinique and the username of admin if the role admin
+
+* profile struct accept all the types of profiles (clinique, patient, admin)
+
+* currently the first id : id=1 in clinique tables is the admin and all the others is clinique
+
+
+
+-------- CLINIQUE -----------
+owner_name
+name
+email
+number
+password
+city
+
+patient
+first_name
+last_name
+whatsapp_number
+age
+card_id
+city
+surgery_date
+
+
+------------ TO-DO --------------
+
+handling this error on terminal 
+➜  sent_messages git:(main) ✗ go run .
+server is running in http://localhost:8080
+(0xa15a80,0xc000012948)
+here
+something wrong with your data

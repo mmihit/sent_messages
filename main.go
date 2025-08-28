@@ -22,6 +22,7 @@ func main() {
 	r := mux.NewRouter()
 
 	r.HandleFunc("/login", h.LoginHandler).Methods("POST")
+	r.HandleFunc("/register", h.RegisterHandler).Methods("POST")
 
 	serveur := &http.Server{
 		Addr:    ":8080",

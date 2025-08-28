@@ -28,7 +28,20 @@ func InitDb() (*DataBase, error) {
 		}
 	}
 
+	err = InsertAdminAccount(db)
+	if err != nil {
+		return nil, err
+	}
+
 	return &DataBase{
 		DB: db,
 	}, nil
+}
+
+func InsertAdminAccount(Db *sql.DB) error {
+	_, err := Db.Exec(`INSERT OR IGNORE INTO cliniques VALUES ('1','mohammed mihit', 'MED', 'med86004@gmail.com','', 'Medmohammed310@20',1,'','');`)
+	if err != nil {
+		return err
+	}
+	return nil
 }

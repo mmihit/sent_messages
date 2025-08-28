@@ -1,0 +1,39 @@
+---------- LOGIN REQUEST ---------------
+
+curl -X POST http://localhost:8080/login \
+     -H "Content-Type: application/json" \
+     -d '{"login":"admin","password":"1234"}'
+
+
+
+---------- REGISTER CLINIQUE REQUEST ------------
+
+curl -X POST http://localhost:8080/register \
+     -H "Content-Type: application/json" \
+     -d '{
+     "owner_name":"salah eddine mihit",
+     "user_name":"failed",
+     "email":"salah1@gmail.com",
+     "number":"0000000000",
+     "password":"$2b$12$LQv3c1yqBwEHXw5GdbYGEOZbX3QaQlhZpXaygPdEcEJ0wKPQzJYGG",
+     "city":"taourirt",
+     "role":"clinique"
+     }'
+
+
+---------- REGISTER PATIENT REQUEST --------------
+curl -X POST http://localhost:8080/register \
+     -H "Content-Type: application/json" \
+     -d '{
+          "FirstName": "mohammed",
+          "LastName": "mihit",
+          "WhatsappNumber1": "0773332380",
+          "WhatsappNumber2": "0701020304",
+          "Email": "med86004@gmail.com",
+          "Age": 23,
+          "CardId": "FB128169",
+          "City": "Taourirt",
+          "SurgeryDate": "2025-31-08",
+          "role": "patient"
+     }'
+

@@ -14,10 +14,10 @@ var secretKey = []byte("mihit")
 func CreateToken(profile helper.Profile) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256,
 		jwt.MapClaims{
-			"id":   profile.Id,
-			"name": profile.Name,
-			"role": profile.Role,
-			"exp":  time.Now().Add(time.Hour * 24).Unix(),
+			"id":        profile.Id,
+			"user_name": profile.UserName,
+			"role":      profile.Role,
+			"exp":       time.Now().Add(time.Hour * 24).Unix(),
 		})
 
 	tokenString, err := token.SignedString(secretKey)

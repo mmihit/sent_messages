@@ -20,7 +20,11 @@ func (h *Handlers) LoginHandler(w http.ResponseWriter, r *http.Request) {
 
 	err := json.NewDecoder(r.Body).Decode(&bodyRequest)
 	if err != nil {
-		http.Error(w, "invalid body data", http.StatusBadRequest)
+		apiResponse = helper.ApiResponse{
+			Code: http.StatusBadRequest,
+			Data: "invalid body request",
+		}
+		apiResponse.Sent(w)
 		return
 	}
 
