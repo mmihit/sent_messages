@@ -25,15 +25,15 @@ curl -X POST http://localhost:8080/register \
 curl -X POST http://localhost:8080/register \
      -H "Content-Type: application/json" \
      -d '{
-          "FirstName": "mohammed",
-          "LastName": "mihit",
-          "WhatsappNumber1": "0773332380",
-          "WhatsappNumber2": "0701020304",
-          "Email": "med86004@gmail.com",
-          "Age": 23,
-          "CardId": "FB128169",
-          "City": "Taourirt",
-          "SurgeryDate": "2025-31-08",
+          "first_name": "mohammed",
+          "last_name": "mihit",
+          "whatsapp_number1": "0773332380",
+          "whatsapp_number2": "0701020304",
+          "email": "med86004@gmail.com",
+          "age": 23,
+          "card_id": "FB128169",
+          "city": "Taourirt",
+          "surgery_date": "2025-09-25",
           "role": "patient"
      }'
 

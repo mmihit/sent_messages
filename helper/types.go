@@ -60,5 +60,5 @@ type PatientRegisterApi struct {
 	Age             int    `json:"age" validate:"required,gte=0,lte=120"`
 	CardId          string `json:"card_id" validate:"required,alphanum,min=5,max=20"`
 	City            string `json:"city" validate:"required,alpha,min=3,max=50"`
-	SurgeryDate     string `json:"surgery_date"`
+	SurgeryDate     string `json:"surgery_date" validate:"future_date"`
 }
