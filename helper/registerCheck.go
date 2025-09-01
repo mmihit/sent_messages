@@ -77,7 +77,7 @@ func CheckPatientRegisterData(body io.ReadCloser) (PatientRegisterApi, error) {
 	// Register future date validation
 	validate.RegisterValidation("future_date", func(fl validator.FieldLevel) bool {
 		dateStr := fl.Field().String()
-		return ValidateSurgeryDate(dateStr, "2006-01-02")
+		return ValidateRemovalDate(dateStr, req.InsertionStentJJ, "2006-01-02")
 	})
 
 	// Validate the struct
@@ -90,7 +90,7 @@ func CheckPatientRegisterData(body io.ReadCloser) (PatientRegisterApi, error) {
 }
 
 // ValidateSurgeryDate checks if date is valid and in the future
-func ValidateSurgeryDate(dateStr, format string) bool {
+func ValidateRemovalDate(dateStr, insertionDateStr, format string) bool {
 	if dateStr == "" {
 		return false
 	}
@@ -103,11 +103,15 @@ func ValidateSurgeryDate(dateStr, format string) bool {
 	}
 
 	// Get today's date (start of day)
-	tomorrow := time.Now().Truncate(24*time.Hour).AddDate(0, 0, 1)
+	insertionDate, err := time.Parse(format, insertionDateStr)
+	if err != nil {
+		fmt.Printf("Date parse error: %v (format: %s, date: %s)\n", err, format, dateStr)
+		return false
+	}
 
 	// Check if date is greater than today
-	if !parsedDate.After(tomorrow) {
-		fmt.Printf("Date must be in the future: %s is not after %s\n", parsedDate.Format("2006-01-02"), tomorrow.Format("2006-01-02"))
+	if !parsedDate.After(insertionDate.Truncate(24*time.Hour).AddDate(0, 0, 3)) {
+		fmt.Printf("Removal Date must be three days after insertion stent JJ: %s is not after %s\n", parsedDate.Format("2006-01-02"), insertionDate.Format("2006-01-02"))
 		return false
 	}
 

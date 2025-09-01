@@ -28,6 +28,16 @@ func (h *Handlers) LoginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// password_hashed, err := helper.HashPassword(bodyRequest.Password)
+	// if err != nil {
+	// 	apiResponse = helper.ApiResponse{
+	// 		Code: http.StatusBadRequest,
+	// 		Data: "error hashing password",
+	// 	}
+	// 	apiResponse.Sent(w)
+	// 	return
+	// }
+
 	apiResponse, Profile := h.DB.CheckLoginInfo(bodyRequest.Login, bodyRequest.Password)
 	if apiResponse.Code == http.StatusOK {
 		token, err := auth.CreateToken(Profile)

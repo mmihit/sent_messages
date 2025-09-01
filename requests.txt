@@ -2,28 +2,30 @@
 
 curl -X POST http://localhost:8080/login \
      -H "Content-Type: application/json" \
-     -d '{"login":"admin","password":"1234"}'
+     -d '{"login":"clinique test two","password":"Clinique01@"}'
 
 
 
 ---------- REGISTER CLINIQUE REQUEST ------------
 
-curl -X POST http://localhost:8080/register \
+curl -X POST http://localhost:8080/add_new_clinique \
      -H "Content-Type: application/json" \
+     -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTY4MDEwNjksImlkIjoxLCJyb2xlIjoiYWRtaW4iLCJ1c2VyX25hbWUiOiJNRUQifQ.0x1EjlKqBoikxK2KArpa8I3JoQ0dF3TF-Gu-ZrhDl4g" \
      -d '{
      "owner_name":"salah eddine mihit",
-     "user_name":"failed",
+     "user_name":"Clinique test two",
      "email":"salah1@gmail.com",
      "number":"0000000000",
-     "password":"$2b$12$LQv3c1yqBwEHXw5GdbYGEOZbX3QaQlhZpXaygPdEcEJ0wKPQzJYGG",
+     "password":"$2y$10$aJBU0rIduUhMkdAwOHz0LOXIQbopNxatN6sO7BtwwfKhSwXHeUi5C",
      "city":"taourirt",
      "role":"clinique"
      }'
 
 
 ---------- REGISTER PATIENT REQUEST --------------
-curl -X POST http://localhost:8080/register \
+curl -X POST http://localhost:8080/add_patient \
      -H "Content-Type: application/json" \
+     -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTY4MTczMTcsImlkIjoyLCJyb2xlIjoiY2xpbmlxdWUiLCJ1c2VyX25hbWUiOiJDbGluaXF1ZSB0ZXN0IHR3byJ9.UPgKHYoZquUDiQQURijboA7ZOsBodcDbHCIuZmKZ4Ko" \
      -d '{
           "first_name": "mohammed",
           "last_name": "mihit",
@@ -33,7 +35,31 @@ curl -X POST http://localhost:8080/register \
           "age": 23,
           "card_id": "FB128169",
           "city": "Taourirt",
-          "surgery_date": "2025-09-25",
+          "insertion_stent_JJ": "2025-09-01",
+          "removal_stent_JJ": "2025-09-05",
+          "diagnostic" : "input text here",
           "role": "patient"
      }'
 
+
+---------- DELETE PATIENT REQUEST -------------
+curl -X DELETE http://localhost:8080/delete_patient/1 \
+     -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTY4MDEyMzgsImlkIjoyLCJyb2xlIjoiY2xpbmlxdWUiLCJ1c2VyX25hbWUiOiJDbGluaXF1ZSB0ZXN0IHR3byJ9.ltjJtmSYbyv7LL6_ETZOdsutpy5nFgBA4b6iXEVPouY"
+
+---------- GET PATIENT BY ID ----------------
+curl -X GET http://localhost:8080/get_patient_by_id/1 \
+     -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTY4MTczMTcsImlkIjoyLCJyb2xlIjoiY2xpbmlxdWUiLCJ1c2VyX25hbWUiOiJDbGluaXF1ZSB0ZXN0IHR3byJ9.UPgKHYoZquUDiQQURijboA7ZOsBodcDbHCIuZmKZ4Ko"
+
+------- GET PATIENT BY REMOVAL DATE ----------
+curl -X GET http://localhost:8080/get_patients_by_removal_date/2025-09-05 \
+     -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTY4MTczMTcsImlkIjoyLCJyb2xlIjoiY2xpbmlxdWUiLCJ1c2VyX25hbWUiOiJDbGluaXF1ZSB0ZXN0IHR3byJ9.UPgKHYoZquUDiQQURijboA7ZOsBodcDbHCIuZmKZ4Ko"
+
+---------- GET ALL PATIENT -------------
+curl -X GET http://localhost:8080/get_all_patients \
+     -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTY4MTczMTcsImlkIjoyLCJyb2xlIjoiY2xpbmlxdWUiLCJ1c2VyX25hbWUiOiJDbGluaXF1ZSB0ZXN0IHR3byJ9.UPgKHYoZquUDiQQURijboA7ZOsBodcDbHCIuZmKZ4Ko"
+
+
+------------------ Tokens --------------------
+--admin: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTY4MTQ5NzksImlkIjoxLCJyb2xlIjoiYWRtaW4iLCJ1c2VyX25hbWUiOiJNRUQifQ.ilsuVqjibX2YL6hUnEufbaGL5w9xChN2sPBy74RT0yc
+--clinique:
+     *clinique test: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTY4MTczMTcsImlkIjoyLCJyb2xlIjoiY2xpbmlxdWUiLCJ1c2VyX25hbWUiOiJDbGluaXF1ZSB0ZXN0IHR3byJ9.UPgKHYoZquUDiQQURijboA7ZOsBodcDbHCIuZmKZ4Ko

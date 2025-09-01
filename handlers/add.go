@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"my_app/auth"
 	"my_app/helper"
 )
 
@@ -77,6 +78,8 @@ func (h *Handlers) AddClinique(w http.ResponseWriter, r *http.Request) {
 func (h *Handlers) AddPatient(w http.ResponseWriter, r *http.Request) {
 	var apiResponse helper.ApiResponse
 
+	user := r.Context().Value(auth.UserContextKey).(auth.UserInfo)
+
 	patientData, err := helper.CheckPatientRegisterData(r.Body)
 	if err != nil {
 		fmt.Println("Validation error:", err)
@@ -97,14 +100,20 @@ func (h *Handlers) AddPatient(w http.ResponseWriter, r *http.Request) {
 		patientData.Email,
 		patientData.CardId,
 		patientData.City,
-		patientData.SurgeryDate,
-		2,
+		patientData.InsertionStentJJ,
+		patientData.RemovalStentJJ,
+		patientData.Diagnostic,
+		user.UserID,
 		patientData.Age,
 	)
 	if err != nil {
 		fmt.Println("Database error:", err)
+		code := http.StatusInternalServerError
+		if err.Error() == "this surgery date already exists" {
+			code = http.StatusBadRequest
+		}
 		apiResponse = helper.ApiResponse{
-			Code: http.StatusInternalServerError,
+			Code: code,
 			Data: "error registering patient surgery, try again later",
 		}
 		apiResponse.Sent(w)

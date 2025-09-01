@@ -3,6 +3,8 @@ package db
 import (
 	"database/sql"
 
+	"my_app/helper"
+
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -39,7 +41,11 @@ func InitDb() (*DataBase, error) {
 }
 
 func InsertAdminAccount(Db *sql.DB) error {
-	_, err := Db.Exec(`INSERT OR IGNORE INTO cliniques VALUES ('1','mohammed mihit', 'MED', 'med86004@gmail.com','', 'Medmohammed310@20',1,'','');`)
+	password_hash, err := helper.HashPassword("Medmohammed310@20")
+	if err != nil {
+		return err
+	}
+	_, err = Db.Exec(`INSERT OR IGNORE INTO cliniques VALUES ('1','mohammed mihit', 'MED', 'med86004@gmail.com','', '` + password_hash + `',1,'','');`)
 	if err != nil {
 		return err
 	}

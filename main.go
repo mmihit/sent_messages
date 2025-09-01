@@ -24,7 +24,11 @@ func main() {
 
 	r.HandleFunc("/login", h.LoginHandler).Methods("POST")
 	r.Handle("/add_new_clinique", auth.RequireRole("admin")(http.HandlerFunc(h.AddClinique))).Methods("POST")
-	r.Handle("/add_new_surgery_date", auth.RequireRole("admin", "clinique")(http.HandlerFunc(h.AddPatient))).Methods("POST")
+	r.Handle("/add_patient", auth.RequireRole("clinique")(http.HandlerFunc(h.AddPatient))).Methods("POST")
+	r.Handle("/delete_patient/{id}", auth.RequireRole("clinique")(http.HandlerFunc(h.DeletePatient))).Methods("DELETE")
+	r.Handle("/get_patients_by_removal_date/{date}", auth.RequireRole("clinique")(http.HandlerFunc(h.GetPatientsByRemovalDate))).Methods("GET")
+	r.Handle("/get_patient_by_id/{id}", auth.RequireRole("clinique")(http.HandlerFunc(h.GetPatientById))).Methods("GET")
+	r.Handle("/get_all_patients", auth.RequireRole("clinique")(http.HandlerFunc(h.GetAllPatients))).Methods("GET")
 
 	serveur := &http.Server{
 		Addr:    ":8080",

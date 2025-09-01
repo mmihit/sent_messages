@@ -17,7 +17,7 @@ import (
 var secretKey = []byte("mihit")
 
 type JWTClaims struct {
-	UserID int    `json:"user_id"`
+	UserID int    `json:"id"`
 	Role   string `json:"role"`
 	jwt.RegisteredClaims
 }
@@ -34,7 +34,7 @@ type UserInfo struct {
 func CreateToken(profile helper.Profile) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256,
 		jwt.MapClaims{
-			"id":        profile.Id,
+			"id":        profile.ID,
 			"user_name": profile.UserName,
 			"role":      profile.Role,
 			"exp":       time.Now().Add(time.Hour * 24).Unix(),
@@ -55,7 +55,8 @@ func VerifyToken(tokenString string) (*JWTClaims, error) {
 	})
 
 	if err != nil || !token.Valid {
-		fmt.Println("invalid token: ", err)
+		fmt.Println("this is your token:", tokenString)
+		fmt.Println("invalid token:", err)
 		return nil, errors.New("invalid token")
 	}
 
@@ -64,6 +65,7 @@ func VerifyToken(tokenString string) (*JWTClaims, error) {
 		fmt.Println("invalid token claims: ", err)
 		return nil, errors.New("invalid token claims")
 	}
+
 	return claims, nil
 }
 
@@ -85,14 +87,21 @@ func RequireRole(allowedRoles ...string) func(http.Handler) http.Handler {
 				return
 			}
 
-			hasPermission := slices.Contains(allowedRoles, claims.Role)
+			if claims.UserID == 0 {
+				sendError(w, http.StatusUnauthorized, "something wrong with your token")
+				return
+			}
+
+			hasPermission := slices.Contains(allowedRoles, strings.ToLower(claims.Role))
 
 			if !hasPermission {
+				fmt.Println(allowedRoles, strings.ToLower(claims.Role))
 				sendError(w, http.StatusForbidden, "insufficient permissions")
 				return
 			}
 
 			userInfo := UserInfo{UserID: claims.UserID, Role: claims.Role}
+			fmt.Println(userInfo)
 			ctx := context.WithValue(r.Context(), UserContextKey, userInfo)
 			next.ServeHTTP(w, r.WithContext(ctx))
 		})
