@@ -210,6 +210,38 @@ func (d *DataBase) GetPatientsFromRemovalDate(date string, cliniqueID int) ([]he
 	return patients, nil
 }
 
+func (d *DataBase) GetPatientsFromScheduler(date string) ([]helper.Patient, error) {
+	rows, err := d.DB.Query(`
+		SELECT id, first_name, last_name, age, card_id, whatsapp_number1, whatsapp_number2
+		FROM patients WHERE jj_stent_removal = ?;
+	`, date)
+	if err != nil {
+		fmt.Println(err)
+		if err == sql.ErrNoRows {
+			return nil, errors.New("no patient on this day")
+		}
+		return nil, errors.New("internal server error")
+	}
+	defer rows.Close()
+
+	var patients []helper.Patient
+	for rows.Next() {
+		var p helper.Patient
+		err := rows.Scan(
+			&p.ID, &p.FirstName, &p.LastName, &p.Age, &p.CardID, &p.WhatsappNumber1, &p.WhatsappNumber2,
+		)
+		if err != nil {
+			fmt.Println(err)
+			if err == sql.ErrNoRows {
+				return nil, errors.New("invalid JJ Stent removal date")
+			}
+			return nil, errors.New("internal server error")
+		}
+		patients = append(patients, p)
+	}
+	return patients, nil
+}
+
 func (d *DataBase) GetPatientInfo(patientID, cliniqueID int) (*helper.PatientApi, error) {
 	row := d.DB.QueryRow(`
 		SELECT id, clinique_id, first_name, last_name, whatsapp_number1, whatsapp_number2,
@@ -264,6 +296,16 @@ func (d *DataBase) GetAllPatientByCliniqueID(cliniqueID int) ([]helper.Patient, 
 		patients = append(patients, p)
 	}
 	return patients, nil
+}
+
+func (d *DataBase) GetPatientsCount(cliniqueID int) (int, error) {
+	var count int
+	err := d.DB.QueryRow("SELECT COUNT(*) FROM patients WHERE clinique_id = ?", cliniqueID).Scan(&count)
+	if err != nil {
+		fmt.Println(err)
+		return count, errors.New("internal server error")
+	}
+	return count, nil
 }
 
 /****************************** DELETE ********************************/

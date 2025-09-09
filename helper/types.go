@@ -19,12 +19,14 @@ type Clinique struct {
 }
 
 type Patient struct {
-	ID             int    `json:"id"`
-	FirstName      string `json:"first_name"`
-	LastName       string `json:"last_name"`
-	CardID         string `json:"card_id"`
-	Age            int    `json:"age"`
-	JJStentRemoval string `json:"JJ_stent_removal"`
+	ID              int    `json:"id"`
+	FirstName       string `json:"first_name"`
+	LastName        string `json:"last_name"`
+	CardID          string `json:"card_id"`
+	Age             int    `json:"age"`
+	WhatsappNumber1 string
+	WhatsappNumber2 string
+	JJStentRemoval  string `json:"JJ_stent_removal"`
 }
 
 type PatientApi struct {
