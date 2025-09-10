@@ -70,8 +70,8 @@ type CliniqueRegisterApi struct {
 type PatientRegisterApi struct {
 	FirstName        string `json:"first_name" validate:"required,alpha,min=3,max=50"`
 	LastName         string `json:"last_name" validate:"required,alpha,min=3,max=50"`
-	WhatsappNumber1  string `json:"whatsapp_number1" validate:"required,numeric,min=3,max=10"`
-	WhatsappNumber2  string `json:"whatsapp_number2" validate:"numeric,min=3,max=10"`
+	WhatsappNumber1  string `json:"whatsapp_number1" validate:"required,min=10,max=14"`
+	WhatsappNumber2  string `json:"whatsapp_number2" validate:"min=10,max=14"`
 	Email            string `json:"email" validate:"required,email"`
 	Age              int    `json:"age" validate:"required,gte=0,lte=120"`
 	CardId           string `json:"card_id" validate:"required,alphanum,min=5,max=20"`

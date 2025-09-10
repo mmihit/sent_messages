@@ -1,4 +1,4 @@
----------- LOGIN REQUEST ---------------
+     ---------- LOGIN REQUEST ---------------
 
 curl -X POST http://localhost:8080/login \
      -H "Content-Type: application/json" \
@@ -23,28 +23,28 @@ curl -X POST http://localhost:8080/add_new_clinique \
 
 
 ---------- REGISTER PATIENT REQUEST --------------
-curl -X POST http://localhost:8080/add_patient \
+curl -X POST https://1fd1b90a1ca5.ngrok-free.app/add_patient \
      -H "Content-Type: application/json" \
-     -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTY4MTczMTcsImlkIjoyLCJyb2xlIjoiY2xpbmlxdWUiLCJ1c2VyX25hbWUiOiJDbGluaXF1ZSB0ZXN0IHR3byJ9.UPgKHYoZquUDiQQURijboA7ZOsBodcDbHCIuZmKZ4Ko" \
+     -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTc1ODM1MDYsImlkIjoyLCJyb2xlIjoiY2xpbmlxdWUiLCJ1c2VyX25hbWUiOiJDbGluaXF1ZSB0ZXN0IHR3byJ9.8s9DxZKp8rVVWoT5pgd_4BgGyJuFaPbveCVGFrTtHTA" \
      -d '{
-          "first_name": "mohammed",
-          "last_name": "mihit",
-          "whatsapp_number1": "0773332380",
-          "whatsapp_number2": "0701020304",
+          "first_name": "Douae",
+          "last_name": "Mihit",
+          "whatsapp_number1": "+212684671243",
+          "whatsapp_number2": "+212701020304",
           "email": "med86004@gmail.com",
-          "age": 23,
-          "card_id": "FB128169",
-          "city": "Taourirt",
+          "age": 21,
+          "card_id": "FB0000",
+          "city": "Oujda",
           "insertion_stent_JJ": "2025-09-01",
-          "removal_stent_JJ": "2025-09-05",
+          "removal_stent_JJ": "2025-09-09",
           "diagnostic" : "input text here",
           "role": "patient"
      }'
 
 
 ---------- DELETE PATIENT REQUEST -------------
-curl -X DELETE http://localhost:8080/delete_patient/1 \
-     -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTY4MDEyMzgsImlkIjoyLCJyb2xlIjoiY2xpbmlxdWUiLCJ1c2VyX25hbWUiOiJDbGluaXF1ZSB0ZXN0IHR3byJ9.ltjJtmSYbyv7LL6_ETZOdsutpy5nFgBA4b6iXEVPouY"
+curl -X DELETE https://1fd1b90a1ca5.ngrok-free.app/delete_patient/5 \
+     -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTc1ODM1MDYsImlkIjoyLCJyb2xlIjoiY2xpbmlxdWUiLCJ1c2VyX25hbWUiOiJDbGluaXF1ZSB0ZXN0IHR3byJ9.8s9DxZKp8rVVWoT5pgd_4BgGyJuFaPbveCVGFrTtHTA"
 
 ---------- GET PATIENT BY ID ----------------
 curl -X GET http://localhost:8080/get_patient_by_id/1 \
@@ -62,4 +62,8 @@ curl -X GET http://localhost:8080/get_all_patients \
 ------------------ Tokens --------------------
 --admin: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTY4MTQ5NzksImlkIjoxLCJyb2xlIjoiYWRtaW4iLCJ1c2VyX25hbWUiOiJNRUQifQ.ilsuVqjibX2YL6hUnEufbaGL5w9xChN2sPBy74RT0yc
 --clinique:
-     *clinique test: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTY4MTczMTcsImlkIjoyLCJyb2xlIjoiY2xpbmlxdWUiLCJ1c2VyX25hbWUiOiJDbGluaXF1ZSB0ZXN0IHR3byJ9.UPgKHYoZquUDiQQURijboA7ZOsBodcDbHCIuZmKZ4Ko
+     *clinique test: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTc1ODM1MDYsImlkIjoyLCJyb2xlIjoiY2xpbmlxdWUiLCJ1c2VyX25hbWUiOiJDbGluaXF1ZSB0ZXN0IHR3byJ9.8s9DxZKp8rVVWoT5pgd_4BgGyJuFaPbveCVGFrTtHTA
+
+
+------------------ URL ----------------------
+ngrok url: https://1fd1b90a1ca5.ngrok-free.app
