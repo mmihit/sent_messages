@@ -6,10 +6,11 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
-	"my_app/helper"
 	"net/http"
 	"strconv"
 	"time"
+
+	"my_app/helper"
 
 	"github.com/robfig/cron/v3"
 )
@@ -21,21 +22,24 @@ func (h *Handlers) SchedulerTask() error {
 	}
 	c := cron.New(cron.WithSeconds(), cron.WithLocation(nyc))
 
-	c.AddFunc("*/10 * * * * *", h.SentMessages)
+	// c.AddFunc("* 0 9 * * *", h.SentSchedulerMessages)
+	c.AddFunc("*/10 * * * * *", h.SentSchedulerMessages)
+	// c.AddFunc("0 16 * * *", h.DeleteSchedulerPatient)
+	c.AddFunc("*/10 * * * * *", h.DeleteSchedulerPatient)
 
 	fmt.Println("Cron running...")
 	c.Start()
 	return nil
 }
 
-func (h *Handlers) SentMessages() {
+func (h *Handlers) SentSchedulerMessages() {
 	nyc, err := time.LoadLocation("Africa/Casablanca")
 	if err != nil {
 		fmt.Println("error getting location time: ", err)
 		return
 	}
 
-	day := time.Now().In(nyc).AddDate(0, 0, -1).Format("2006-01-02")
+	day := time.Now().In(nyc).AddDate(0, 0, +1).Format("2006-01-02")
 
 	patients, err := h.DB.GetPatientsFromScheduler(day)
 	if err != nil {
@@ -46,7 +50,7 @@ func (h *Handlers) SentMessages() {
 	for _, patient := range patients {
 		err = sentMessageTo(patient, patient.WhatsappNumber1)
 		if err == nil {
-			//update message status in db
+			// update message status in db
 			fmt.Printf("\noriginal message sent to: %s %s, has this num %s\n", patient.FirstName, patient.LastName, patient.WhatsappNumber1)
 		} else {
 			fmt.Printf("\nfailed to sent original message to: %s %s\n", patient.FirstName, patient.LastName)
@@ -54,10 +58,26 @@ func (h *Handlers) SentMessages() {
 			if err1 != nil {
 				fmt.Printf("\nfailed to sent alternative message to: %s %s\n", patient.FirstName, patient.LastName)
 			} else {
-				//update message status in db
+				// update message status in db
 				fmt.Printf("\nalternative message sent to: %s %s, has this num %s\n", patient.FirstName, patient.LastName, patient.WhatsappNumber2)
 			}
 		}
+	}
+}
+
+func (h *Handlers) DeleteSchedulerPatient() {
+	nyc, err := time.LoadLocation("Africa/Casablanca")
+	if err != nil {
+		fmt.Println("error getting location time: ", err)
+		return
+	}
+
+	day := time.Now().In(nyc).Format("2006-01-02")
+
+	_, err = h.DB.DB.Exec(`DELETE FROM patients WHERE jj_stent_removal = ?`, day)
+	if err != nil {
+		fmt.Println(err)
+		return
 	}
 }
 
@@ -72,6 +92,9 @@ func sentMessageTo(patient helper.Patient, num string) error {
 		"to":   num,
 		"text": message,
 	})
+	if err != nil {
+		return err
+	}
 
 	fmt.Println("\npayload: ", string(payload))
 
