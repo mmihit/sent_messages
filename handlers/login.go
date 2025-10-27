@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"my_app/auth"
@@ -14,6 +15,7 @@ type LoginRequestApi struct {
 }
 
 func (h *Handlers) LoginHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("test this here")
 	var bodyRequest LoginRequestApi
 	var apiResponse helper.ApiResponse
 	var loginData helper.LoginResponseData

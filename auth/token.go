@@ -75,6 +75,7 @@ func RequireRole(allowedRoles ...string) func(http.Handler) http.Handler {
 			// Get token from header
 			authHeader := r.Header.Get("Authorization")
 			if authHeader == "" || !strings.HasPrefix(authHeader, "Bearer ") {
+				// fmt.Println("i'm here...")
 				sendError(w, http.StatusUnauthorized, "missing or invalid authorization header")
 				return
 			}

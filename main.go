@@ -38,7 +38,7 @@ func main() {
 
 	serveur := &http.Server{
 		Addr:    ":8080",
-		Handler: r,
+		Handler: h.HandleCORS(r),
 	}
 
 	fmt.Println("server is running in http://localhost" + serveur.Addr)
