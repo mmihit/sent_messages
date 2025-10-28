@@ -26,6 +26,7 @@ func (h *Handlers) LoginHandler(w http.ResponseWriter, r *http.Request) {
 			Code: http.StatusBadRequest,
 			Data: "invalid body request",
 		}
+		fmt.Println(r.Body)
 		apiResponse.Sent(w)
 		return
 	}

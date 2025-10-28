@@ -33,6 +33,7 @@ func (h *Handlers) SchedulerTask() error {
 }
 
 func (h *Handlers) SentSchedulerMessages() {
+	fmt.Println("cron: trying sent message...")
 	nyc, err := time.LoadLocation("Africa/Casablanca")
 	if err != nil {
 		fmt.Println("error getting location time: ", err)
@@ -66,6 +67,7 @@ func (h *Handlers) SentSchedulerMessages() {
 }
 
 func (h *Handlers) DeleteSchedulerPatient() {
+	fmt.Println("cron: trying deleting patients...")
 	nyc, err := time.LoadLocation("Africa/Casablanca")
 	if err != nil {
 		fmt.Println("error getting location time: ", err)
