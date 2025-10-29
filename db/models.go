@@ -308,6 +308,25 @@ func (d *DataBase) GetPatientsCount(cliniqueID int) (int, error) {
 	return count, nil
 }
 
+func (d *DataBase) GetCliniqueInfo(cliniqueId int) (helper.Clinique, error) {
+	var clinique helper.Clinique
+	var isAdmin bool
+	query := `SELECT id, owner_name, user_name, email, number, is_admin, city
+		FROM cliniques
+		WHERE id=?;
+	`
+	err := d.DB.QueryRow(query, cliniqueId).Scan(&clinique.ID, &clinique.OwnerName, &clinique.UserName, &clinique.Email, &clinique.Number, &isAdmin, &clinique.City)
+	if err == nil {
+		fmt.Println("is admin: ", isAdmin)
+		if isAdmin {
+			clinique.Role = "admin"
+		} else {
+			clinique.Role = "clinique"
+		}
+	}
+	return clinique, err
+}
+
 /****************************** DELETE ********************************/
 
 func (d *DataBase) DeletePatient(patientID, cliniqueId int) error {

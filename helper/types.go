@@ -10,12 +10,13 @@ type Profile struct {
 }
 
 type Clinique struct {
-	ID        int
-	OwnerName string
-	UserName  string
-	Email     string
-	Number    string
-	City      int
+	ID        int    `json:"id"`
+	OwnerName string `json:"owner_name"`
+	UserName  string `json:"user_name"`
+	Email     string `json:"email"`
+	Number    string `json:"number"`
+	City      string `json:"city"`
+	Role      string `json:"role"`
 }
 
 type Patient struct {
