@@ -269,7 +269,7 @@ func (d *DataBase) GetPatientInfo(patientID, cliniqueID int) (*helper.PatientApi
 }
 
 func (d *DataBase) GetAllPatientByCliniqueID(cliniqueID int) ([]helper.Patient, error) {
-	rows, err := d.DB.Query(`SELECT id, first_name, last_name, age, card_id, jj_stent_removal
+	rows, err := d.DB.Query(`SELECT id, first_name, last_name, age, card_id, DATE(jj_stent_removal)
 		FROM patients WHERE clinique_id = ?`, cliniqueID)
 	if err != nil {
 		fmt.Println(err)
